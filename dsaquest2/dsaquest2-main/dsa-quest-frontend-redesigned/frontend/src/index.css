@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   DSA Quest design system
+   Built entirely with CSS custom properties + existing Tailwind
+   utilities/theme.extend tokens (quest.purple/pink/blue/green/yellow).
+   No changes to tailwind.config.js — theme switching is done via
+   a `.dark` class on <html> and CSS variables consumed through
+   Tailwind's arbitrary-value syntax, e.g. bg-[var(--surface)].
+   ============================================================ */
+
+:root {
+  --bg: #FAFAFA;
+  --bg-soft: #F5F5F5;
+  --surface: #FFFFFF;
+  --surface-2: #F7F7F8;
+  --border: #E5E5E5;
+  --text: #262626;
+  --text-muted: #5C5C5C;
+  --text-faint: #8A8A8A;
+  --shadow-color: 0 0% 0%;
+  --ring-offset: #FAFAFA;
+}
+
+.dark {
+  --bg: #0E0E0E;
+  --bg-soft: #161616;
+  --surface: #191919;
+  --surface-2: #212121;
+  --border: #2E2E2E;
+  --text: #E5E5E5;
+  --text-muted: #A3A3A3;
+  --text-faint: #6B6B6B;
+  --shadow-color: 0 0% 0%;
+  --ring-offset: #0E0E0E;
+}
+
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Baloo 2 stays reserved for display moments: logo, hero headings,
+   big numbers — Inter carries all UI/body text, JetBrains Mono
+   carries data: indices, XP counts, Big-O tags, quiz progress. */
+.font-display {
+  font-family: "Baloo 2", "Comic Sans MS", cursive, sans-serif;
+}
+.font-data {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+* {
+  border-color: var(--border);
+}
+
+::selection {
+  background: rgba(124, 58, 237, 0.25);
+}
+
+/* Custom scrollbar — kept subtle, matches surface tokens */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+}
+
+/* Respect reduced motion system-wide */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer components {
+  /* Card surface used across dashboard, visualizers, quiz, auth */
+  .quest-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 2px hsl(var(--shadow-color) / 0.04), 0 8px 24px hsl(var(--shadow-color) / 0.06);
+  }
+
+  /* Primary CTA — consistent across the app instead of one-off classes */
+  .btn-quest-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-bold px-5 py-3
+      bg-quest-purple text-white shadow-sm transition-all duration-200
+      hover:bg-[#6D28D9] hover:-translate-y-0.5 active:translate-y-0
+      disabled:opacity-50 disabled:pointer-events-none disabled:translate-y-0;
+  }
+  .btn-quest-secondary {
+    background: var(--surface-2);
+    color: var(--text);
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-bold px-5 py-3
+      border transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0
+      disabled:opacity-50 disabled:pointer-events-none disabled:translate-y-0;
+  }
+  .btn-quest-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-semibold px-4 py-2
+      text-[var(--text-muted)] transition-colors duration-150 hover:bg-[var(--surface-2)] hover:text-[var(--text)];
+  }
+
+  .input-quest {
+    background: var(--surface);
+    color: var(--text);
+    border: 1.5px solid var(--border);
+    @apply w-full rounded-xl px-4 py-3 text-[15px] outline-none transition-colors duration-150
+      placeholder:text-[var(--text-faint)] focus:border-quest-purple;
+  }
+
+  /* Small monospace tag — used for complexity notation, indices, counts */
+  .chip-data {
+    font-family: "JetBrains Mono", monospace;
+    @apply inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-semibold;
+  }
+
+  :focus-visible {
+    outline: 2px solid #7C3AED;
+    outline-offset: 2px;
+  }
+
+  /* ============================================================
+     LeetCode-style system — dense, grayscale, functional.
+     Used by Navbar + Dashboard (and onward). Coexists with the
+     legacy .quest-card / .btn-quest-* classes above, which still
+     serve pages not yet redesigned (Login, Visualizers, Quiz, Battle).
+     ============================================================ */
+
+  .lc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .lc-row {
+    transition: background-color 150ms ease;
+  }
+  .lc-row:hover {
+    background: var(--surface-2);
+  }
+
+  .lc-btn {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-md text-sm font-medium
+      px-3 py-1.5 transition-colors duration-150 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .lc-btn-primary {
+    @apply lc-btn text-white;
+    background: #E8790C;
+  }
+  .lc-btn-primary:hover { background: #CC6A09; }
+
+  .lc-btn-secondary {
+    @apply lc-btn border;
+    background: var(--surface);
+    color: var(--text);
+    border-color: var(--border);
+  }
+  .lc-btn-secondary:hover { background: var(--surface-2); }
+
+  .lc-btn-ghost {
+    @apply lc-btn;
+    color: var(--text-muted);
+  }
+  .lc-btn-ghost:hover { background: var(--surface-2); color: var(--text); }
+
+  .lc-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 6px;
+    padding: 1px 7px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: "Inter", sans-serif;
+  }
+
+  .lc-navlink {
+    @apply text-sm font-medium px-2.5 py-1.5 rounded-md transition-colors duration-150;
+    color: var(--text-muted);
+  }
+  .lc-navlink:hover { color: var(--text); background: var(--surface-2); }
+  .lc-navlink.active { color: var(--text); }
+
+  .lc-input {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    @apply w-full rounded-md px-3 py-2 text-sm outline-none transition-colors duration-150
+      placeholder:text-[var(--text-faint)] focus:border-[#E8790C];
+  }
+}
