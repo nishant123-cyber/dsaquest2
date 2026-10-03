@@ -4,28 +4,27 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ["'Baloo 2'", "'Comic Sans MS'", "cursive", "sans-serif"],
+        display: ["'Inter'", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       colors: {
-        quest: {
-          purple: "#7C3AED",
-          pink: "#EC4899",
-          blue: "#3B82F6",
-          green: "#10B981",
-          yellow: "#F59E0B",
-          bg: "#F5F3FF",
-        },
+        ink: "#111827",
+        soft: "#F7F7F8",
+        panel: "#FFFFFF",
+        line: "#E5E7EB",
+        muted: "#64748B",
+        gold: "#F59E0B",
+        orange: "#F97316",
+        success: "#16A34A",
+        info: "#2563EB",
+        danger: "#EF4444",
       },
-      animation: {
-        "bounce-slow": "bounce 2s infinite",
-        wiggle: "wiggle 0.6s ease-in-out",
+      boxShadow: {
+        soft: "0 1px 0 rgba(17,24,39,0.02), 0 6px 18px rgba(17,24,39,0.04)",
       },
-      keyframes: {
-        wiggle: {
-          "0%, 100%": { transform: "rotate(-3deg)" },
-          "50%": { transform: "rotate(3deg)" },
-        },
-      },
+      borderRadius: {
+        xl: "12px",
+        "2xl": "16px",
+      }
     },
   },
   plugins: [],
