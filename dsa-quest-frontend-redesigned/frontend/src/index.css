@@ -3,43 +3,43 @@
 @tailwind utilities;
 
 /* ============================================================
-   DSA Quest design system
-   Built entirely with CSS custom properties + existing Tailwind
-   utilities/theme.extend tokens (quest.purple/pink/blue/green/yellow).
-   No changes to tailwind.config.js — theme switching is done via
-   a `.dark` class on <html> and CSS variables consumed through
-   Tailwind's arbitrary-value syntax, e.g. bg-[var(--surface)].
+   LeetCode-inspired Design System
+   Pure, professional, minimal.
+   No gradients, no glow, no AI slop.
    ============================================================ */
 
 :root {
-  --bg: #FAFAFE;
-  --bg-soft: #F4F3FC;
-  --surface: #FFFFFF;
-  --surface-2: #F7F6FD;
-  --border: #E7E4F5;
-  --text: #1E1B2E;
-  --text-muted: #6B6B80;
-  --text-faint: #9997AC;
-  --shadow-color: 245 60% 40%;
-  --ring-offset: #FAFAFE;
+  --bg: #F7F7F8;
+  --panel: #FFFFFF;
+  --panel-alt: #F9FAFB;
+  --line: #E5E7EB;
+  --text: #111827;
+  --muted: #64748B;
+  --accent: #F59E0B;
+  --accent-strong: #F97316;
+  --success: #16A34A;
+  --info: #2563EB;
+  --danger: #EF4444;
 }
 
 .dark {
-  --bg: #100E1B;
-  --bg-soft: #17142668;
-  --surface: #1A1728;
-  --surface-2: #211D33;
-  --border: #322C48;
-  --text: #F3F1FA;
-  --text-muted: #A9A6BE;
-  --text-faint: #716D87;
-  --shadow-color: 260 60% 2%;
-  --ring-offset: #100E1B;
+  --bg: #0F172A;
+  --panel: #1E293B;
+  --panel-alt: #334155;
+  --line: #475569;
+  --text: #F1F5F9;
+  --muted: #94A3B8;
+  --accent: #FBBF24;
+  --accent-strong: #FB923C;
+  --success: #4ADE80;
+  --info: #60A5FA;
+  --danger: #F87171;
 }
 
 html {
   color-scheme: light;
 }
+
 html.dark {
   color-scheme: dark;
 }
@@ -53,40 +53,36 @@ body {
   background: var(--bg);
   color: var(--text);
   transition: background-color 0.25s ease, color 0.25s ease;
-}
-
-/* Baloo 2 stays reserved for display moments: logo, hero headings,
-   big numbers — Inter carries all UI/body text, JetBrains Mono
-   carries data: indices, XP counts, Big-O tags, quiz progress. */
-.font-display {
-  font-family: "Baloo 2", "Comic Sans MS", cursive, sans-serif;
-}
-.font-data {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
-  border-color: var(--border);
+  border-color: var(--line);
 }
 
 ::selection {
-  background: rgba(124, 58, 237, 0.25);
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--text);
 }
 
-/* Custom scrollbar — kept subtle, matches surface tokens */
+/* Custom scrollbar — clean and minimal */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 999px;
+  background: var(--line);
+  border-radius: 6px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-faint);
+  background: var(--muted);
 }
 
 /* Respect reduced motion system-wide */
@@ -100,48 +96,59 @@ body {
 }
 
 @layer components {
-  /* Card surface used across dashboard, visualizers, quiz, auth */
+  /* Clean card surface */
   .quest-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    box-shadow: 0 1px 2px hsl(var(--shadow-color) / 0.04), 0 8px 24px hsl(var(--shadow-color) / 0.06);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 0 rgba(17, 24, 39, 0.02), 0 6px 18px rgba(17, 24, 39, 0.04);
+    border-radius: 12px;
   }
 
-  /* Primary CTA — consistent across the app instead of one-off classes */
+  /* Primary button — solid orange/gold, no flash */
   .btn-quest-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl font-bold px-5 py-3
-      bg-quest-purple text-white shadow-sm transition-all duration-200
-      hover:bg-[#6D28D9] hover:-translate-y-0.5 active:translate-y-0
-      disabled:opacity-50 disabled:pointer-events-none disabled:translate-y-0;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg font-semibold px-4 py-2.5
+      text-white transition-all duration-200
+      bg-[var(--accent-strong)] hover:bg-[#FB923C] hover:shadow-sm active:scale-95
+      disabled:opacity-50 disabled:pointer-events-none disabled:scale-100;
   }
+
+  /* Secondary button — muted background */
   .btn-quest-secondary {
-    background: var(--surface-2);
+    background: var(--panel-alt);
     color: var(--text);
-    @apply inline-flex items-center justify-center gap-2 rounded-xl font-bold px-5 py-3
-      border transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0
-      disabled:opacity-50 disabled:pointer-events-none disabled:translate-y-0;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg font-semibold px-4 py-2.5
+      border border-[var(--line)] transition-all duration-200 
+      hover:bg-[var(--line)] hover:shadow-sm active:scale-95
+      disabled:opacity-50 disabled:pointer-events-none disabled:scale-100;
   }
+
+  /* Ghost button — text only */
   .btn-quest-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl font-semibold px-4 py-2
-      text-[var(--text-muted)] transition-colors duration-150 hover:bg-[var(--surface-2)] hover:text-[var(--text)];
+    @apply inline-flex items-center justify-center gap-2 rounded-lg font-medium px-3 py-2
+      text-[var(--text)] transition-colors duration-150 
+      hover:bg-[var(--panel-alt)] hover:text-[var(--text)];
   }
 
+  /* Clean input field */
   .input-quest {
-    background: var(--surface);
+    background: var(--panel);
     color: var(--text);
-    border: 1.5px solid var(--border);
-    @apply w-full rounded-xl px-4 py-3 text-[15px] outline-none transition-colors duration-150
-      placeholder:text-[var(--text-faint)] focus:border-quest-purple;
+    border: 1px solid var(--line);
+    @apply w-full rounded-lg px-4 py-2.5 text-[15px] outline-none transition-colors duration-150
+      placeholder:text-[var(--muted)] 
+      focus:border-[var(--accent-strong)] focus:ring-1 focus:ring-[var(--accent-strong)]/20;
   }
 
-  /* Small monospace tag — used for complexity notation, indices, counts */
+  /* Data chip — monospace, restrained */
   .chip-data {
-    font-family: "JetBrains Mono", monospace;
-    @apply inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-semibold;
+    font-family: "JetBrains Mono", "Monaco", monospace;
+    @apply inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-semibold
+      bg-[var(--panel-alt)] text-[var(--text)] border border-[var(--line)];
   }
 
+  /* Focus ring */
   :focus-visible {
-    outline: 2px solid #7C3AED;
+    outline: 2px solid var(--accent-strong);
     outline-offset: 2px;
   }
 }
